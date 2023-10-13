@@ -48,9 +48,11 @@ const recordSchema = yup.object().shape({
   previous_glass_prescription_od: yup.string(),
   previous_glass_prescription_od_ds: yup.string(),
   previous_glass_prescription_od_dcx: yup.string(),
+  previous_glass_prescription_od_add: yup.string(),
   previous_glass_prescription_os: yup.string(),
   previous_glass_prescription_os_ds: yup.string(),
   previous_glass_prescription_os_dcx: yup.string(),
+  previous_glass_prescription_os_add: yup.string(),
   previous_glass_prescription_comments: yup.string(),
 
   //VFAA
@@ -82,7 +84,6 @@ const recordSchema = yup.object().shape({
   acceptance_os_ds: yup.string(),
   acceptance_os_dcx: yup.string(),
   acceptance_os_dcx_final: yup.string(),
-  acceptance_ou: yup.string(),
   acceptance_ou_final: yup.string(),
 
   add_od: yup.string(),
@@ -109,7 +110,6 @@ const recordSchema = yup.object().shape({
 
   pupil_od: yup.string(),
   pupil_os: yup.string(),
-  pupil_ou: yup.string(),
   pupil_comments: yup.string(),
 
   lids_od: yup.string(),
@@ -129,6 +129,7 @@ const recordSchema = yup.object().shape({
   anterior_segment_comments: yup.string(),
   intraocular_pressure_od: yup.string(),
   intraocular_pressure_os: yup.string(),
+  intraocular_pressure_comments: yup.string(),
   time: yup.string(),
   posterior_segment_od_image: yup.string(),
   posterior_segment_od_description: yup.string(),
@@ -194,9 +195,11 @@ const initialValuesRecord = {
   previous_glass_prescription_od: "",
   previous_glass_prescription_od_ds: "",
   previous_glass_prescription_od_dcx: "",
+  previous_glass_prescription_od_add: "",
   previous_glass_prescription_os: "",
   previous_glass_prescription_os_ds: "",
   previous_glass_prescription_os_dcx: "",
+  previous_glass_prescription_os_add: "",
   previous_glass_prescription_comments: "",
   vision_od: "",
   vision_od_ph: "",
@@ -225,7 +228,6 @@ const initialValuesRecord = {
   acceptance_os_ds: "",
   acceptance_os_dcx: "",
   acceptance_os_dcx_final: "",
-  acceptance_ou: "",
   acceptance_ou_final: "",
 
   add_od: "",
@@ -252,26 +254,26 @@ const initialValuesRecord = {
 
   pupil_od: "",
   pupil_os: "",
-  pupil_ou: "",
   pupil_comments: "",
 
-  lids_od: "",
-  lids_os: "",
-  conjuctiva_od: "",
-  conjuctiva_os: "",
-  cornea_od: "",
-  cornea_os: "",
-  ac_od: "",
-  ac_os: "",
-  iris_od: "",
-  iris_os: "",
-  lens_od: "",
-  lens_os: "",
-  tear_film_od: "",
-  tear_film_os: "",
+  lids_od: "Normal",
+  lids_os: "Normal",
+  conjuctiva_od: "Normal",
+  conjuctiva_os: "Normal",
+  cornea_od: "Normal",
+  cornea_os: "Normal",
+  ac_od: "Normal",
+  ac_os: "Normal",
+  iris_od: "Normal",
+  iris_os: "Normal",
+  lens_od: "Normal",
+  lens_os: "Normal",
+  tear_film_od: "Normal",
+  tear_film_os: "Normal",
   anterior_segment_comments: "",
   intraocular_pressure_od: "",
   intraocular_pressure_os: "",
+  intraocular_pressure_comments: "",
   time: "",
   posterior_segment_od_image: "",
   posterior_segment_od_description: "",
@@ -312,7 +314,7 @@ const Form = () => {
   const navigate = useNavigate();
   const mode = useSelector((state) => state.mode);
   const name = useSelector((state) => state.user);
-  const token = useSelector((state) => state.token)
+  const token = useSelector((state) => state.token);
   const divider = palette.secondary.medium;
   const main = palette.primary.main;
   const [personalDetails, setPersonalDetails] = useState(true);
@@ -387,11 +389,11 @@ const Form = () => {
       `http://${process.env.REACT_APP_HOSTNAME}${process.env.REACT_APP_PORT}/records`,
       {
         method: "POST",
-        headers: {Authorization: `Bearer ${token}`, },
+        headers: { Authorization: `Bearer ${token}` },
         body: formData,
       }
     );
-    
+
     const data = savedRecordResponse.json();
     if (!(savedRecordResponse.status >= 400)) {
       success();
@@ -741,7 +743,7 @@ const Form = () => {
                       DATE
                     </Typography>
                     <TextField
-                      label="OD"
+                      label=""
                       onBlur={handleBlur}
                       onChange={handleChange}
                       value={values.date}
@@ -820,6 +822,24 @@ const Form = () => {
                     name="previous_glass_prescription_od_dcx"
                     sx={{ gridColumn: "span 1" }}
                   />
+                  <Typography
+                    fontWeight={300}
+                    variant="h5"
+                    marginTop="1rem"
+                    marginLeft="1rem"
+                    sx={{ gridColumn: "span 1" }}
+                    justifySelf="center"
+                  >
+                    ADD
+                  </Typography>
+                  <TextField
+                    label="DC"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.previous_glass_prescription_od_add}
+                    name="previous_glass_prescription_od_add"
+                    sx={{ gridColumn: "span 1" }}
+                  />
                 </Box>
                 <Box
                   display="grid"
@@ -881,6 +901,24 @@ const Form = () => {
                     onChange={handleChange}
                     value={values.previous_glass_prescription_os_dcx}
                     name="previous_glass_prescription_os_dcx"
+                    sx={{ gridColumn: "span 1" }}
+                  />
+                  <Typography
+                    fontWeight={300}
+                    variant="h5"
+                    marginTop="1rem"
+                    marginLeft="1rem"
+                    sx={{ gridColumn: "span 1" }}
+                    justifySelf="center"
+                  >
+                    ADD
+                  </Typography>
+                  <TextField
+                    label="DC"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.previous_glass_prescription_os_add}
+                    name="previous_glass_prescription_os_add"
                     sx={{ gridColumn: "span 1" }}
                   />
                 </Box>
@@ -1530,21 +1568,6 @@ const Form = () => {
                   >
                     <Typography variant="h4"> OU </Typography>
                   </Box>
-                  <Box
-                    sx={{ gridColumn: "3/ span 1" }}
-                    justifySelf="center"
-                    alignSelf="center"
-                  >
-                    <TextField
-                      label="OU"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      justifySelf="center"
-                      value={values.acceptance_ou}
-                      name="acceptance_ou"
-                      sx={{ gridColumn: "span 3" }}
-                    />
-                  </Box>
 
                   <Box
                     sx={{ gridColumn: "9/ span 1" }}
@@ -1971,7 +1994,7 @@ const Form = () => {
                     value={values.npc_subjective}
                     name="npc_subjective"
                     marginTop="2rem"
-                    sx={{ gridColumn: "3/ span 1" }}
+                    sx={{ gridColumn: "3/ span 2" }}
                   />
                   <Typography
                     fontWeight="400"
@@ -1989,7 +2012,7 @@ const Form = () => {
                     value={values.npc_objective}
                     name="npc_objective"
                     marginTop="2rem"
-                    sx={{ gridColumn: "6/ span 1" }}
+                    sx={{ gridColumn: "6/ span 2" }}
                   />
                 </Box>
                 <Box
@@ -2190,25 +2213,6 @@ const Form = () => {
                     value={values.pupil_os}
                     name="pupil_os"
                     sx={{ gridColumn: "5/ span 2" }}
-                  />
-                  <Typography
-                    fontWeight="500"
-                    variant="h4"
-                    sx={{ gridColumn: "7/span 1" }}
-                    marginLeft={"1rem"}
-                    justifySelf={"center"}
-                    alignSelf={"center"}
-                  >
-                    OU
-                  </Typography>
-                  <TextField
-                    label=""
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    justifySelf="center"
-                    value={values.pupil_ou}
-                    name="pupil_ou"
-                    sx={{ gridColumn: "8/ span 2" }}
                   />
                 </Box>
                 <Box
@@ -2681,6 +2685,28 @@ const Form = () => {
                   >
                     mmHg
                   </Typography>
+                  <Typography
+                    fontWeight="200"
+                    variant="h5"
+                    marginBottom={"1rem"}
+                    sx={{ gridColumn: "1/span 1" }}
+                    marginLeft={"1rem"}
+                    justifySelf={"center"}
+                    alignSelf={"center"}
+                  >
+                    COMMENTS
+                  </Typography>
+                  <TextField
+                    label=""
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    multiline
+                    rows={2}
+                    justifySelf="center"
+                    value={values.intraocular_pressure_comments}
+                    name="intraocular_pressure_comments"
+                    sx={{ gridColumn: "2/ span 6" }}
+                  />
                 </Box>
                 <div
                   style={{

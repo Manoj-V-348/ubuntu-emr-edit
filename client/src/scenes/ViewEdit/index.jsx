@@ -19,7 +19,7 @@ import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import state, { setId,  setRecord } from "state";
+import state, { setId, setRecord } from "state";
 import * as yup from "yup";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Dropzone from "react-dropzone";
@@ -51,9 +51,11 @@ const recordSchema = yup.object().shape({
   previous_glass_prescription_od: yup.string(),
   previous_glass_prescription_od_ds: yup.string(),
   previous_glass_prescription_od_dcx: yup.string(),
+  previous_glass_prescription_od_add: yup.string(),
   previous_glass_prescription_os: yup.string(),
   previous_glass_prescription_os_ds: yup.string(),
   previous_glass_prescription_os_dcx: yup.string(),
+  previous_glass_prescription_os_add: yup.string(),
   previous_glass_prescription_comments: yup.string(),
 
   //VFAA
@@ -85,7 +87,6 @@ const recordSchema = yup.object().shape({
   acceptance_os_ds: yup.string(),
   acceptance_os_dcx: yup.string(),
   acceptance_os_dcx_final: yup.string(),
-  acceptance_ou: yup.string(),
   acceptance_ou_final: yup.string(),
 
   add_od: yup.string(),
@@ -112,7 +113,6 @@ const recordSchema = yup.object().shape({
 
   pupil_od: yup.string(),
   pupil_os: yup.string(),
-  pupil_ou: yup.string(),
   pupil_comments: yup.string(),
 
   lids_od: yup.string(),
@@ -132,6 +132,7 @@ const recordSchema = yup.object().shape({
   anterior_segment_comments: yup.string(),
   intraocular_pressure_od: yup.string(),
   intraocular_pressure_os: yup.string(),
+  intraocular_pressure_comments: yup.string(),
   time: yup.string(),
   posterior_segment_od_image: yup.string(),
   posterior_segment_od_description: yup.string(),
@@ -181,7 +182,7 @@ const ViewEdit = () => {
   const record = useSelector((state) => state.record);
   const mode = useSelector((state) => state.mode);
   const name = useSelector((state) => state.user);
-  const token = useSelector((state) => state.token)
+  const token = useSelector((state) => state.token);
   const success = (message) => {
     toast.success(message, {
       position: "top-left",
@@ -208,38 +209,39 @@ const ViewEdit = () => {
     });
   };
 
-  const ID = useSelector((state) => state.id)
+  const ID = useSelector((state) => state.id);
 
   const GetPdf = () => {
     const pdfUrl = `http://${process.env.REACT_APP_HOSTNAME}${process.env.REACT_APP_PORT}/pdf/${ID}`; // Replace with the actual URL of your PDF file
 
-   
-    fetch(pdfUrl, {headers: {'Content-Type': 'application/pdf', Authorization: `Bearer ${token}`}} )
+    fetch(pdfUrl, {
+      headers: {
+        "Content-Type": "application/pdf",
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => {
         if (response.ok) {
-         
           return response.blob();
         } else {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
       })
       .then((blob) => {
-        
         const blobUrl = window.URL.createObjectURL(blob);
 
-        
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = blobUrl;
-        a.download = 'downloaded.pdf'
-        a.style.display = 'none';
+        a.download = "downloaded.pdf";
+        a.style.display = "none";
 
         document.body.appendChild(a);
         a.click();
-        
+
         document.body.removeChild(a);
       })
       .catch((error) => {
-        console.error('Fetch error:', error);
+        console.error("Fetch error:", error);
       });
   };
 
@@ -276,11 +278,15 @@ const ViewEdit = () => {
       record[0].previous_glass_prescription_od_ds,
     previous_glass_prescription_od_dcx:
       record[0].previous_glass_prescription_od_dcx,
+    previous_glass_prescription_od_add:
+      record[0].previous_glass_prescription_od_add,
     previous_glass_prescription_os: record[0].previous_glass_prescription_os,
     previous_glass_prescription_os_ds:
       record[0].previous_glass_prescription_os_ds,
     previous_glass_prescription_os_dcx:
       record[0].previous_glass_prescription_os_dcx,
+    previous_glass_prescription_os_add:
+      record[0].previous_glass_prescription_os_add,
     previous_glass_prescription_comments:
       record[0].previous_glass_prescription_comments,
     vision_od: record[0].vision_od,
@@ -310,7 +316,6 @@ const ViewEdit = () => {
     acceptance_os_ds: record[0].acceptance_os_ds,
     acceptance_os_dcx: record[0].acceptance_os_dcx,
     acceptance_os_dcx_final: record[0].acceptance_os_dcx_final,
-    acceptance_ou: record[0].acceptance_ou,
     acceptance_ou_final: record[0].acceptance_ou_final,
 
     add_od: record[0].add_od,
@@ -337,7 +342,6 @@ const ViewEdit = () => {
 
     pupil_od: record[0].pupil_od,
     pupil_os: record[0].pupil_os,
-    pupil_ou: record[0].pupil_ou,
     pupil_comments: record[0].pupil_comments,
 
     lids_od: record[0].lids_od,
@@ -357,6 +361,7 @@ const ViewEdit = () => {
     anterior_segment_comments: record[0].anterior_segment_comments,
     intraocular_pressure_od: record[0].intraocular_pressure_od,
     intraocular_pressure_os: record[0].intraocular_pressure_os,
+    intraocular_pressure_comments: record[0].intraocular_pressure_comments,
     time: record[0].time,
     posterior_segment_od_image: "",
     posterior_segment_od_description:
@@ -448,15 +453,14 @@ const ViewEdit = () => {
     formData.append("name", `${values.firstName} ${values.lastName}`);
     formData.append("edited_by", name);
     formData.append("edited_timestamp", date);
-    for (var pair of formData.entries())
-      {
-        console.log(pair[0]+ ', '+ pair[1]); 
-      }
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+    }
     const updatedRecordResponse = await fetch(
       `http://${process.env.REACT_APP_HOSTNAME}${process.env.REACT_APP_PORT}/records/update/${params.id}`,
       {
         method: "PUT",
-        headers: {Authorization: `Bearer ${token}`, },
+        headers: { Authorization: `Bearer ${token}` },
         body: formData,
       }
     );
@@ -465,7 +469,7 @@ const ViewEdit = () => {
       success("UPDATED");
       dispatch(setId({ id: null }));
       navigate("/query");
-      setTimeout(() => dispatch(setRecord({ record: null })), 1000);
+      // setTimeout(() => dispatch(setRecord({ record: null })), 1000);
     } else {
       error();
     }
@@ -476,7 +480,7 @@ const ViewEdit = () => {
       `http://${process.env.REACT_APP_HOSTNAME}${process.env.REACT_APP_PORT}/records/delete/${params.id}`,
       {
         method: "DELETE",
-        headers: {Authorization: `Bearer ${token}`, },
+        headers: { Authorization: `Bearer ${token}` },
       }
     );
 
@@ -907,6 +911,29 @@ const ViewEdit = () => {
                       name="previous_glass_prescription_od_dcx"
                       sx={{ gridColumn: "span 1" }}
                     />
+                    <Typography
+                      fontWeight={300}
+                      variant="h5"
+                      marginTop="1rem"
+                      marginLeft="1rem"
+                      sx={{ gridColumn: "span 1" }}
+                      justifySelf="center"
+                    >
+                      ADD
+                    </Typography>
+                    <TextField
+                      label="ADD"
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      multiline
+                      maxRows={2}
+                      defaultValue={
+                        record[0].previous_glass_prescription_od_add
+                      }
+                      name="previous_glass_prescription_od_add"
+                      sx={{ gridColumn: "span 1" }}
+                    />
                   </Box>
                   <Box
                     display="grid"
@@ -980,6 +1007,29 @@ const ViewEdit = () => {
                         record[0].previous_glass_prescription_os_dcx
                       }
                       name="previous_glass_prescription_os_dcx"
+                      sx={{ gridColumn: "span 1" }}
+                    />
+                    <Typography
+                      fontWeight={300}
+                      variant="h5"
+                      marginTop="1rem"
+                      marginLeft="1rem"
+                      sx={{ gridColumn: "span 1" }}
+                      justifySelf="center"
+                    >
+                      ADD
+                    </Typography>
+                    <TextField
+                      label="DC"
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      multiline
+                      maxRows={2}
+                      defaultValue={
+                        record[0].previous_glass_prescription_os_add
+                      }
+                      name="previous_glass_prescription_os_add"
                       sx={{ gridColumn: "span 1" }}
                     />
                   </Box>
@@ -1556,7 +1606,6 @@ const ViewEdit = () => {
                       justifySelf="center"
                       alignSelf="center"
                     >
-                      {" "}
                       <TextField
                         label=""
                         InputProps={{
@@ -1690,24 +1739,6 @@ const ViewEdit = () => {
                       alignSelf="center"
                     >
                       <Typography variant="h4"> OU </Typography>
-                    </Box>
-                    <Box
-                      sx={{ gridColumn: "3/ span 1" }}
-                      justifySelf="center"
-                      alignSelf="center"
-                    >
-                      {" "}
-                      <TextField
-                        label="OU"
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                        multiline
-                        justifySelf="center"
-                        defaultValue={record[0].acceptance_ou}
-                        name="acceptance_ou"
-                        sx={{ gridColumn: "span 3" }}
-                      />
                     </Box>
 
                     <Box
@@ -2170,7 +2201,7 @@ const ViewEdit = () => {
                       defaultValue={record[0].npc_subjective}
                       name="npc_subjective"
                       marginTop="2rem"
-                      sx={{ gridColumn: "3/ span 1" }}
+                      sx={{ gridColumn: "3/ span 2" }}
                     />
                     <Typography
                       fontWeight="400"
@@ -2192,7 +2223,7 @@ const ViewEdit = () => {
                       defaultValue={record[0].npc_objective}
                       name="npc_objective"
                       marginTop="2rem"
-                      sx={{ gridColumn: "6/ span 1" }}
+                      sx={{ gridColumn: "6/ span 2" }}
                     />
                   </Box>
                   <Box
@@ -2406,26 +2437,6 @@ const ViewEdit = () => {
                       defaultValue={record[0].pupil_os}
                       name="pupil_os"
                       sx={{ gridColumn: "5/ span 2" }}
-                    />
-                    <Typography
-                      fontWeight="500"
-                      variant="h4"
-                      sx={{ gridColumn: "7/span 1" }}
-                      marginLeft={"1rem"}
-                      justifySelf={"center"}
-                      alignSelf={"center"}
-                    >
-                      OU
-                    </Typography>
-                    <TextField
-                      label=""
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                      justifySelf="center"
-                      defaultValue={record[0].pupil_ou}
-                      name="pupil_ou"
-                      sx={{ gridColumn: "8/ span 2" }}
                     />
                   </Box>
                   <Box
@@ -2917,6 +2928,27 @@ const ViewEdit = () => {
                     >
                       mmHg
                     </Typography>
+                    <Typography
+                      fontWeight="200"
+                      variant="h5"
+                      marginBottom={"1rem"}
+                      sx={{ gridColumn: "1/span 1" }}
+                      marginLeft={"1rem"}
+                      justifySelf={"center"}
+                      alignSelf={"center"}
+                    >
+                      COMMENTS
+                    </Typography>
+                    <TextField
+                      label=""
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      justifySelf="center"
+                      defaultValue={record[0].intraocular_pressure_comments}
+                      name="intraocular_pressure_comments"
+                      sx={{ gridColumn: "2/ span 2" }}
+                    />
                   </Box>
                   <div
                     style={{
@@ -3844,12 +3876,10 @@ const ViewEdit = () => {
                 >
                   {"EDIT"}
                 </Button>
-            <Button
-
-                  onClick={() =>  
-                    {
-                      GetPdf();
-                      success("PDF GENERATED");
+                <Button
+                  onClick={() => {
+                    GetPdf();
+                    success("PDF GENERATED");
                   }}
                   sx={{
                     m: "2rem 0",
@@ -3968,23 +3998,23 @@ const ViewEdit = () => {
                           sx={{ gridColumn: "span 1" }}
                         />
 
-                    <TextField
-                    select
-                    label="Sex"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.sex}
-                    name="sex"
-                    error={Boolean(touched.sex) && Boolean(errors.sex)}
-                    helperText={touched.sex && errors.sex}
-                    sx={{ gridColumn: "span 1" }}
-                  >
-                    {gender.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                        <TextField
+                          select
+                          label="Sex"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.sex}
+                          name="sex"
+                          error={Boolean(touched.sex) && Boolean(errors.sex)}
+                          helperText={touched.sex && errors.sex}
+                          sx={{ gridColumn: "span 1" }}
+                        >
+                          {gender.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </TextField>
                         <TextField
                           label="Health Record Number"
                           onBlur={handleBlur}
@@ -4205,7 +4235,7 @@ const ViewEdit = () => {
                             DATE
                           </Typography>
                           <TextField
-                            label="OD"
+                            label=""
                             onBlur={handleBlur}
                             onChange={handleChange}
                             value={values.date}
@@ -4284,6 +4314,24 @@ const ViewEdit = () => {
                           name="previous_glass_prescription_od_dcx"
                           sx={{ gridColumn: "span 1" }}
                         />
+                        <Typography
+                          fontWeight={300}
+                          variant="h5"
+                          marginTop="1rem"
+                          marginLeft="1rem"
+                          sx={{ gridColumn: "span 1" }}
+                          justifySelf="center"
+                        >
+                          ADD
+                        </Typography>
+                        <TextField
+                          label="DC"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.previous_glass_prescription_od_add}
+                          name="previous_glass_prescription_od_add"
+                          sx={{ gridColumn: "span 1" }}
+                        />
                       </Box>
                       <Box
                         display="grid"
@@ -4345,6 +4393,24 @@ const ViewEdit = () => {
                           onChange={handleChange}
                           value={values.previous_glass_prescription_os_dcx}
                           name="previous_glass_prescription_os_dcx"
+                          sx={{ gridColumn: "span 1" }}
+                        />
+                        <Typography
+                          fontWeight={300}
+                          variant="h5"
+                          marginTop="1rem"
+                          marginLeft="1rem"
+                          sx={{ gridColumn: "span 1" }}
+                          justifySelf="center"
+                        >
+                          ADD
+                        </Typography>
+                        <TextField
+                          label="DC"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.previous_glass_prescription_os_add}
+                          name="previous_glass_prescription_os_add"
                           sx={{ gridColumn: "span 1" }}
                         />
                       </Box>
@@ -5032,22 +5098,6 @@ const ViewEdit = () => {
                           <Typography variant="h4"> OU </Typography>
                         </Box>
                         <Box
-                          sx={{ gridColumn: "3/ span 1" }}
-                          justifySelf="center"
-                          alignSelf="center"
-                        >
-                          <TextField
-                            label="OU"
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            justifySelf="center"
-                            value={values.acceptance_ou}
-                            name="acceptance_ou"
-                            sx={{ gridColumn: "span 3" }}
-                          />
-                        </Box>
-
-                        <Box
                           sx={{ gridColumn: "9/ span 1" }}
                           justifySelf="center"
                           alignSelf="center"
@@ -5496,7 +5546,7 @@ const ViewEdit = () => {
                           value={values.npc_subjective}
                           name="npc_subjective"
                           marginTop="2rem"
-                          sx={{ gridColumn: "3/ span 1" }}
+                          sx={{ gridColumn: "3/ span 2" }}
                         />
                         <Typography
                           fontWeight="400"
@@ -5514,7 +5564,7 @@ const ViewEdit = () => {
                           value={values.npc_objective}
                           name="npc_objective"
                           marginTop="2rem"
-                          sx={{ gridColumn: "6/ span 1" }}
+                          sx={{ gridColumn: "6/ span 2" }}
                         />
                       </Box>
                       <Box
@@ -5719,25 +5769,6 @@ const ViewEdit = () => {
                           value={values.pupil_os}
                           name="pupil_os"
                           sx={{ gridColumn: "5/ span 2" }}
-                        />
-                        <Typography
-                          fontWeight="500"
-                          variant="h4"
-                          sx={{ gridColumn: "7/span 1" }}
-                          marginLeft={"1rem"}
-                          justifySelf={"center"}
-                          alignSelf={"center"}
-                        >
-                          OU
-                        </Typography>
-                        <TextField
-                          label=""
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          justifySelf="center"
-                          value={values.pupil_ou}
-                          name="pupil_ou"
-                          sx={{ gridColumn: "8/ span 2" }}
                         />
                       </Box>
                       <Box
@@ -6205,6 +6236,26 @@ const ViewEdit = () => {
                         >
                           mmHg
                         </Typography>
+                        <Typography
+                          fontWeight="500"
+                          variant="h4"
+                          sx={{ gridColumn: "1/span 1" }}
+                          marginLeft={"1rem"}
+                          marginBottom={"1rem"}
+                          justifySelf={"center"}
+                          alignSelf={"center"}
+                        >
+                          COMMENTS
+                        </Typography>
+                        <TextField
+                          label=""
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          justifySelf="center"
+                          value={values.intraocular_pressure_comments}
+                          name="intraocular_pressure_comments"
+                          sx={{ gridColumn: "2/ span 4" }}
+                        />
                       </Box>
                       <div
                         style={{
