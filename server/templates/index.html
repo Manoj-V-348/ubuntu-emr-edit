@@ -1,0 +1,183 @@
+{% extends 'base.html' %} {% block content %}
+
+<div style="font-size: 24px">
+  <p><strong>Optometry Case Report</strong></p>
+  <p><span style="font-weight: 400">&nbsp;</span></p>
+  <p>
+    <span style="font-weight: 400"
+      >Health record number:&nbsp; {{hlm}}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      &nbsp;Date of Eye examination:&nbsp; {{date}}</span
+    >
+  </p>
+  <p>
+    <span style="font-weight: 400"
+      >Name of the patient:&nbsp; {{name}}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      &nbsp; &nbsp; &nbsp;Age:&nbsp; {{age}}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      &nbsp; Gender: {{sex}}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      &nbsp;&nbsp;</span
+    >
+  </p>
+  <hr />
+  <p><strong>History:</strong></p>
+  <p>complaints:&nbsp; {{complaints}}</p>
+  <p>
+    <span style="font-weight: 400"
+      >Previous History (Both health &amp; eye):&nbsp; {{hist}}</span
+    >
+  </p>
+  <p>
+    <span style="font-weight: 400">Family History:&nbsp; {{fam_hist}}</span>
+  </p>
+  <p>
+    <span style="font-weight: 400"
+      >Previous Investigation report:&nbsp; {{ir}}</span
+    >
+  </p>
+  <p><span style="font-weight: 400">Medicines taken:&nbsp; {{mt}}</span></p>
+  <p><span style="font-weight: 400">Allergy:&nbsp; {{allergy}}</span></p>
+  <p>Previous Glass Prescription ({{dop}})</p>
+  <p>
+    <span style="font-weight: 400"
+      >Right Eye: {{pgod}} DS/ {{pgodds}} x {{pgodcms}}</span
+    >
+  </p>
+  <p>
+    <span style="font-weight: 400"
+      >Left&nbsp; &nbsp;Eye: {{pgos}} DS/ {{pgosds}} x {{pgoscms}}</span
+    >
+  </p>
+  <p><span style="font-weight: 400">Add:</span></p>
+  <p><span style="font-weight: 400">Comments: {{pgcom}}</span></p>
+  <hr />
+  <p><strong>Clinical Refraction</strong></p>
+  <p><span style="font-weight: 400">Presenting Visual Acuity:&nbsp;</span></p>
+  <p><span style="font-weight: 400">Right Eye:</span></p>
+  <p><span style="font-weight: 400">Left&nbsp; &nbsp;Eye:</span></p>
+  <p><span style="font-weight: 400">Best Corrected Visual Acuity:</span></p>
+  <p><span style="font-weight: 400">Right Eye</span></p>
+  <p><span style="font-weight: 400">Left Eye</span></p>
+  <p>
+    <span style="font-weight: 400"
+      ><strong>Binocular Vision Status:&nbsp;</strong></span
+    >
+  </p>
+  <p>
+    <span style="font-weight: 400"
+      >OM -&nbsp; OD {{eomod}} OS {{eomos}} OU {{eomou}}&nbsp;</span
+    >
+  </p>
+  <p>
+    <span style="font-weight: 400"
+      >CT(with Cx):&nbsp; Distance: {{ctd}}&nbsp; Near: {{ctn}}&nbsp;</span
+    >
+  </p>
+  <p>
+    <span style="font-weight: 400"
+      >NPC: Subjective: {{npcs}} Objective: {{npco}}</span
+    >
+  </p>
+  <p>
+    <span style="font-weight: 400"
+      >NPA: OD {{npaod}} OS {{npaos}} OU {{npaou}}</span
+    >
+  </p>
+  <p>
+    <span style="font-weight: 400"
+      ><strong>Pupil</strong>:&nbsp; &nbsp; OD&nbsp; {{pod}}&nbsp; &nbsp;OS
+      {{pos}}&nbsp; OU {{pou}}</span
+    >
+  </p>
+  <p><span style="font-weight: 400">Comments:&nbsp; {{pcom}}</span></p>
+  <p><strong>ANTERIOR SEGMENT FINDINGS:</strong></p>
+  <table
+    style="border-collapse: collapse; width: 99.8095%; height: 257px"
+    border="1"
+  >
+    <tbody>
+      <tr>
+        <td style="width: 33.3333%">Right Eye</td>
+        <td style="width: 33.3333%">&nbsp;</td>
+        <td style="width: 33.3333%">Left Eye</td>
+      </tr>
+      <tr>
+        <td style="width: 33.3333%">{{lod}}</td>
+        <td style="width: 33.3333%">Lids</td>
+        <td style="width: 33.3333%">{{los}}</td>
+      </tr>
+      <tr>
+        <td style="width: 33.3333%">{{cod}}</td>
+        <td style="width: 33.3333%">Conjunctiva</td>
+        <td style="width: 33.3333%">{{cos}}</td>
+      </tr>
+      <tr>
+        <td style="width: 33.3333%">{{cood}}</td>
+        <td style="width: 33.3333%">Cornea</td>
+        <td style="width: 33.3333%">{{coos}}</td>
+      </tr>
+      <tr>
+        <td style="width: 33.3333%">{{acod}}</td>
+        <td style="width: 33.3333%">AC</td>
+        <td style="width: 33.3333%">{{acos}}</td>
+      </tr>
+      <tr>
+        <td style="width: 33.3333%">{{iod}}</td>
+        <td style="width: 33.3333%">Iris</td>
+        <td style="width: 33.3333%">{{ios}}</td>
+      </tr>
+      <tr>
+        <td style="width: 33.3333%">{{leod}}</td>
+        <td style="width: 33.3333%">Lens</td>
+        <td style="width: 33.3333%">{{leos}}</td>
+      </tr>
+      <tr>
+        <td style="width: 33.3333%">{{tfod}}</td>
+        <td style="width: 33.3333%">Tear Film</td>
+        <td style="width: 33.3333%">{{tfos}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Comments: {{ascom}}</p>
+  <p>
+    <strong>INTROCULAR PRESSURE:</strong>&nbsp;{{time}} &nbsp; &nbsp;OD
+    {{iopod}} OS {{iopos}}&nbsp;
+  </p>
+  <p><strong>POSTERIOR SEGMENT FINDINGS:</strong></p>
+  <div style="display: flex; gap: 30px">
+    &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+    <img src={{od_path}} width="190" height="150"/>
+    &nbsp; &nbsp;&nbsp; &nbsp;
+    <img src={{os_path}} width="190" height="150" />
+  </div>
+  <!-- <p>&nbsp;</p> -->
+  <!-- <p>Comments:</p> -->
+  <div
+    style="
+      display: grid;
+      grid-template-areas:
+        'left' 'right'
+        'left' 'right'
+        'left' 'right';
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    "
+  >
+    <div style="grid-area: left">Right Eye:&nbsp; {{psod}}</div>
+    <div style="grid-area: right">Left Eye:&nbsp; {{psos}}</div>
+  </div>
+  <p>&nbsp;</p>
+  <p>Diagnosis&nbsp; &nbsp; &nbsp; :&nbsp; {{diagnosis}}</p>
+  <p>Management : {{mgmt}}</p>
+  <p>Glass Prescription:&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>R. Krishna Kumar</p>
+  <p>
+    Signature/Name of the Optometrist&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    &nbsp; &nbsp; Date: {{dor}}
+  </p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+</div>
+{% endblock content %}
