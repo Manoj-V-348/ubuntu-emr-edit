@@ -43,9 +43,11 @@ class Record(Base):
     previous_glass_prescription_od = Column(String, nullable=True)
     previous_glass_prescription_od_ds = Column(String, nullable=True)
     previous_glass_prescription_od_dcx = Column(String, nullable=True)
+    previous_glass_prescription_od_add = Column(String, nullable=True)
     previous_glass_prescription_os = Column(String, nullable=True)
     previous_glass_prescription_os_ds = Column(String, nullable=True)
     previous_glass_prescription_os_dcx = Column(String, nullable=True)
+    previous_glass_prescription_os_add = Column(String, nullable=True)
     previous_glass_prescription_comments = Column(String, nullable=True)
 
     # VFAA
@@ -77,7 +79,6 @@ class Record(Base):
     acceptance_os_ds = Column(String, nullable=True)
     acceptance_os_dcx = Column(String, nullable=True)
     acceptance_os_dcx_final = Column(String, nullable=True)
-    acceptance_ou = Column(String, nullable=True)
     acceptance_ou_final = Column(String, nullable=True)
 
     add_od = Column(String, nullable=True)
@@ -109,7 +110,6 @@ class Record(Base):
 
     pupil_od = Column(String, nullable=True)
     pupil_os = Column(String, nullable=True)
-    pupil_ou = Column(String, nullable=True)
     pupil_comments = Column(String, nullable=True)
 
     # ANTERIOR SEGMENT
@@ -134,6 +134,7 @@ class Record(Base):
 
     intraocular_pressure_od = Column(String, nullable=True)
     intraocular_pressure_os = Column(String, nullable=True)
+    intraocular_pressure_comments = Column(String, nullable=True)
     time = Column(Time, nullable=True,
                     server_default=text('now()::timestamp(0)')
                   )

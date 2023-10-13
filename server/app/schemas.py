@@ -36,9 +36,11 @@ class Record(BaseModel):
     previous_glass_prescription_od: Optional[str] = None
     previous_glass_prescription_od_ds: Optional[str] = None
     previous_glass_prescription_od_dcx: Optional[str] = None
+    previous_glass_prescription_od_add: Optional[str] = None
     previous_glass_prescription_os: Optional[str] = None
     previous_glass_prescription_os_ds: Optional[str] = None
     previous_glass_prescription_os_dcx: Optional[str] = None
+    previous_glass_prescription_os_add: Optional[str] = None
     previous_glass_prescription_comments: Optional[str] = None
 
     # VFAA
@@ -70,7 +72,6 @@ class Record(BaseModel):
     acceptance_os_ds: Optional[str] = None
     acceptance_os_dcx: Optional[str] = None
     acceptance_os_dcx_final: Optional[str] = None
-    acceptance_ou: Optional[str] = None
     acceptance_ou_final: Optional[str] = None
 
     add_od: Optional[str] = None
@@ -102,7 +103,6 @@ class Record(BaseModel):
 
     pupil_od: Optional[str] = None
     pupil_os: Optional[str] = None
-    pupil_ou: Optional[str] = None
     pupil_comments: Optional[str] = None
 
     # ANTERIOR SEGMENT
@@ -127,6 +127,7 @@ class Record(BaseModel):
 
     intraocular_pressure_od: Optional[str] = None
     intraocular_pressure_os: Optional[str] = None
+    intraocular_pressure_comments: Optional[str] = None
     time: Optional[str] = None
 
    # # POSTERIOR SEGMENT -- IMAGE WITH COMMENTS
@@ -202,9 +203,11 @@ class RecordOut(BaseModel):
     previous_glass_prescription_od: Optional[str] = None
     previous_glass_prescription_od_ds: Optional[str] = None
     previous_glass_prescription_od_dcx: Optional[str] = None
+    previous_glass_prescription_od_add: Optional[str] = None
     previous_glass_prescription_os: Optional[str] = None
     previous_glass_prescription_os_ds: Optional[str] = None
     previous_glass_prescription_os_dcx: Optional[str] = None
+    previous_glass_prescription_os_add: Optional[str] = None
     previous_glass_prescription_comments: Optional[str] = None
 
     # VFAA
@@ -236,7 +239,6 @@ class RecordOut(BaseModel):
     acceptance_os_ds: Optional[str] = None
     acceptance_os_dcx: Optional[str] = None
     acceptance_os_dcx_final: Optional[str] = None
-    acceptance_ou: Optional[str] = None
     acceptance_ou_final: Optional[str] = None
 
     add_od: Optional[str] = None
@@ -268,7 +270,6 @@ class RecordOut(BaseModel):
 
     pupil_od: Optional[str] = None
     pupil_os: Optional[str] = None
-    pupil_ou: Optional[str] = None
     pupil_comments: Optional[str] = None
 
     # ANTERIOR SEGMENT
@@ -293,6 +294,7 @@ class RecordOut(BaseModel):
 
     intraocular_pressure_od: Optional[str] = None
     intraocular_pressure_os: Optional[str] = None
+    intraocular_pressure_comments: Optional[str] = None
     time: time
 
    # # POSTERIOR SEGMENT -- IMAGE WITH COMMENTS
